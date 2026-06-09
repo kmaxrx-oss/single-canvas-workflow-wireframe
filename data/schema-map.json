@@ -1,0 +1,10 @@
+{
+  "global": "This is a wireframe specimen. All schema notes are advisory for the production implementation. No JSON-LD is emitted here.",
+  "sections": {
+    "intake-search": "Search form would benefit from schema.org/WebPage + potential SearchAction. In production the form action would be a real GET or progressive enhancement to SPA search.",
+    "results-grid": "Use ItemList containing multiple Hotel + Offer. AggregateRating per hotel. ImageObject for thumbnails.",
+    "detail-selection": "Primary LodgingBusiness + Hotel + individual Offer for each room type. BreadcrumbList. Review markup if reviews surface is added.",
+    "checkout-preview": "Reservation + potential Order status. Do not mark up as confirmed until real backend returns reservationId."
+  },
+  "notes": "Future handoff export will turn these into concrete schema requirements for the prod team."
+}

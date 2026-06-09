@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Single-Canvas Workflow Wireframe • Tranche 0</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Split styles (transparent design system, no single "app.css") -->
+  <link rel="stylesheet" href="/styles/tokens.css">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/motion.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="title">
+      <strong>Single-Canvas Workflow Wireframe</strong>
+      <span class="badge">Tranche 0 — Reactive Specimen</span>
+      <span class="mock-badge">NOT PRODUCTION</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;font-size:12px">
+      <span class="muted-note" style="margin-right:4px">Vite + Vanilla • State is the contract</span>
+      <button class="ghost" onclick="document.getElementById('state-panel').scrollIntoView({block:'center'})">Jump to Demo State</button>
+    </div>
+  </header>
+
+  <!-- Section jump nav (sticky) -->
+  <nav class="section-nav" aria-label="Jump to workflow section">
+    <button data-nav="intake-search" type="button">1. Intake / Search</button>
+    <button data-nav="results-grid" type="button">2. Results Grid</button>
+    <button data-nav="detail-selection" type="button">3. Detail / Selection</button>
+    <button data-nav="checkout-preview" type="button">4. Checkout Preview</button>
+  </nav>
+
+  <div class="canvas-layout">
+    <!-- THE SINGLE VERTICAL CANVAS -->
+    <main class="flow" id="main-flow">
+
+      <!-- SECTION 1: Intake / Search -->
+      <section data-section-id="intake-search" aria-labelledby="sec1-title">
+        <div class="section-header">
+          <span class="active-dot" aria-hidden="true"></span>
+          <h2 id="sec1-title">1. Intake / Search</h2>
+          <span class="mock-badge">DEMO ONLY</span>
+        </div>
+
+        <div class="section-body">
+          <p>Enter trip parameters. This writes <code>searchParams</code> and triggers a mock filter that populates the Results Grid.</p>
+
+          <form id="search-form" class="search-form card" onsubmit="return false">
+            <div>
+              <label for="destination" style="display:block;font-size:12px;margin-bottom:4px">Destination</label>
+              <input id="destination" type="text" value="San Francisco" />
+            </div>
+            <div>
+              <label for="checkin" style="display:block;font-size:12px;margin-bottom:4px">Check-in</label>
+              <input id="checkin" type="date" value="2026-05-14" />
+            </div>
+            <div>
+              <label for="checkout" style="display:block;font-size:12px;margin-bottom:4px">Check-out</label>
+              <input id="checkout" type="date" value="2026-05-17" />
+            </div>
+            <div>
+              <label for="guests" style="display:block;font-size:12px;margin-bottom:4px">Guests</label>
+              <input id="guests" type="number" min="1" max="8" value="2" style="width:100%" />
+            </div>
+            <div>
+              <button type="button" class="primary" data-action="performSearch" style="width:100%">Search</button>
+            </div>
+          </form>
+
+          <div class="muted-note" style="margin-top:8px">
+            This is a client-side mock. No real inventory service. Search only filters the 5 hotels in <code>data/mock-items.json</code>.
+          </div>
+        </div>
+
+        <!-- Contract block (collapsible, matches workflow.json) -->
+        <details class="contract" open>
+          <summary>Section Contract — Intake / Search</summary>
+          <dl>
+            <dt>purpose</dt>
+            <dd>Capture destination, dates, and guest count to drive relevant results and set initial context for the entire booking flow.</dd>
+            <dt>user decision</dt>
+            <dd>Does the search surface match what I expect for my trip? Do I have enough control to refine before seeing inventory?</dd>
+            <dt>primary action</dt>
+            <dd>Search / Update results (writes <code>searchParams</code>)</dd>
+            <dt>state reads</dt>
+            <dd><code>[]</code></dd>
+            <dt>state writes</dt>
+            <dd><code>searchParams</code></dd>
+            <dt>mock source</dt>
+            <dd>Client-side mock-items.json + simple filter on city/name. No real inventory service.</dd>
+            <dt>proof condition</dt>
+            <dd>User can enter destination + dates + guests and trigger an action that visibly updates the Results Grid below.</dd>
+            <dt>seo / schema notes</dt>
+            <dd>Search form should be crawlable. Consider HotelSearch or LodgingReservation schema on the real page.</dd>
+          </dl>
+        </details>
+      </section>
+
+      <!-- SECTION 2: Results Grid -->
+      <section data-section-id="results-grid" aria-labelledby="sec2-title">
+        <div class="section-header">
+          <span class="active-dot" aria-hidden="true"></span>
+          <h2 id="sec2-title">2. Results Grid</h2>
+          <span class="mock-badge">DEMO ONLY</span>
+        </div>
+
+        <div class="section-body">
+          <p>Scannable hotel options. Selecting a card writes <code>selectedHotelId</code>, scrolls to Detail, and highlights the choice.</p>
+          <div id="results-grid" class="results-grid">
+            <!-- Populated by renderResults() -->
+          </div>
+        </div>
+
+        <details class="contract">
+          <summary>Section Contract — Results Grid</summary>
+          <dl>
+            <dt>purpose</dt>
+            <dd>Present a scannable, filterable set of hotel options with clear price, rating, and key value props.</dd>
+            <dt>user decision</dt>
+            <dd>Which property best fits my needs, budget, and location preferences?</dd>
+            <dt>primary action</dt>
+            <dd>Select hotel → writes <code>selectedHotelId</code> and focuses Detail/Selection</dd>
+            <dt>state reads</dt>
+            <dd><code>searchParams</code>, <code>filteredHotelIds</code></dd>
+            <dt>state writes</dt>
+            <dd><code>selectedHotelId</code></dd>
+            <dt>mock source</dt>
+            <dd>mock-items.json filtered client-side. Thumbnails are deterministic picsum seeds.</dd>
+            <dt>proof condition</dt>
+            <dd>Clicking "Select &amp; View" on a card sets selectedHotelId in Demo State, scrolls/focuses the Detail section, and the Detail surface reflects the choice.</dd>
+            <dt>seo / schema notes</dt>
+            <dd>Each result card should map to a potential real hotel detail URL. ItemList + Hotel structured data in production.</dd>
+          </dl>
+        </details>
+      </section>
+
+      <!-- SECTION 3: Detail / Selection -->
+      <section data-section-id="detail-selection" aria-labelledby="sec3-title">
+        <div class="section-header">
+          <span class="active-dot" aria-hidden="true"></span>
+          <h2 id="sec3-title">3. Detail / Selection</h2>
+          <span class="mock-badge">DEMO ONLY</span>
+        </div>
+
+        <div class="section-body" id="detail-body">
+          <!-- Populated by renderDetail() -->
+        </div>
+
+        <details class="contract">
+          <summary>Section Contract — Detail / Selection</summary>
+          <dl>
+            <dt>purpose</dt>
+            <dd>Deep dive on the chosen hotel + rate selection. Surface room types, policies, and value comparison.</dd>
+            <dt>user decision</dt>
+            <dd>Is this room type acceptable for my party, dates, and price tolerance?</dd>
+            <dt>primary action</dt>
+            <dd>Select room/rate → writes <code>selectedRoomId</code> and advances to Checkout Preview</dd>
+            <dt>state reads</dt>
+            <dd><code>selectedHotelId</code>, <code>searchParams</code></dd>
+            <dt>state writes</dt>
+            <dd><code>selectedRoomId</code></dd>
+            <dt>mock source</dt>
+            <dd>Rooms nested inside the selected hotel object from mock-items.json.</dd>
+            <dt>proof condition</dt>
+            <dd>Selecting a room card updates Demo State with selectedRoomId. The Checkout Preview section immediately reflects the chosen hotel + room + estimated total.</dd>
+            <dt>seo / schema notes</dt>
+            <dd>LodgingReservation + Offer + Room type schema. AggregateRating. BreadcrumbList on the real page.</dd>
+          </dl>
+        </details>
+      </section>
+
+      <!-- SECTION 4: Checkout Preview / Operation-State Stub -->
+      <section data-section-id="checkout-preview" aria-labelledby="sec4-title">
+        <div class="section-header">
+          <span class="active-dot" aria-hidden="true"></span>
+          <h2 id="sec4-title">4. Checkout Preview / Operation-State Stub</h2>
+          <span class="mock-badge">DEMO ONLY</span>
+        </div>
+
+        <div class="section-body">
+          <p>Live summary of selections + a stub for the operation state machine (cart valid, payment pending, failed, confirmed, etc.). <strong>No real checkout occurs.</strong></p>
+          <div id="checkout-body">
+            <!-- Populated by renderCheckoutPreview() -->
+          </div>
+        </div>
+
+        <details class="contract">
+          <summary>Section Contract — Checkout Preview / Operation-State Stub</summary>
+          <dl>
+            <dt>purpose</dt>
+            <dd>Summarize the committed selections before the real payment/guest details step. Also acts as a stub for operation state machine.</dd>
+            <dt>user decision</dt>
+            <dd>Are my selections correct? What is the current operational status of this booking intent?</dd>
+            <dt>primary action</dt>
+            <dd>Simulate operation transitions (writes <code>currentOperationState</code>). No real payment or confirmation.</dd>
+            <dt>state reads</dt>
+            <dd><code>selectedHotelId</code>, <code>selectedRoomId</code>, <code>searchParams</code></dd>
+            <dt>state writes</dt>
+            <dd><code>currentOperationState</code></dd>
+            <dt>mock source</dt>
+            <dd>Purely derived from current demo state + hard-coded operation state transitions. No backend.</dd>
+            <dt>proof condition</dt>
+            <dd>The summary shows live hotel + room + dates. Buttons that call setOperationState visibly change the currentOperationState badge and log the transition in the Demo State panel.</dd>
+            <dt>seo / schema notes</dt>
+            <dd>ReservationPending or potential for Order + Reservation schema. Mark as demo-only in production.</dd>
+          </dl>
+        </details>
+      </section>
+
+    </main>
+
+    <!-- STICKY DEMO STATE PANEL (right sidebar) -->
+    <aside id="state-panel" aria-label="Live Demo State">
+      <!-- Populated entirely by renderStatePanel() in JS -->
+    </aside>
+  </div>
+
+  <!-- FOCUS OVERLAY (reused for cards, images, future primitives) -->
+  <div id="focus-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content" role="document">
+      <div class="overlay-header">
+        <span></span>
+        <button class="overlay-close" aria-label="Close detail view">×</button>
+      </div>
+      <div class="overlay-body"></div>
+    </div>
+  </div>
+
+  <footer style="max-width:1280px;margin:40px auto 60px;padding:0 20px;font-size:11px;color:var(--text-muted)">
+    Single-Canvas Reactive Specimen — Tranche 0. All data is mock. State mutations are logged. This specimen proves workflow, decisions, and contracts before any production code is written.
+    <br>Press <kbd>1</kbd>–<kbd>4</kbd> to jump sections. Click cards/images to open the focus overlay. Escape or backdrop to close.
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

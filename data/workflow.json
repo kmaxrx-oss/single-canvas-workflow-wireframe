@@ -1,0 +1,54 @@
+[
+  {
+    "sectionId": "intake-search",
+    "title": "1. Intake / Search",
+    "purpose": "Capture destination, dates, and guest count to drive relevant results and set initial context for the entire booking flow.",
+    "userDecision": "Does the search surface match what I expect for my trip? Do I have enough control to refine before seeing inventory?",
+    "primaryAction": "Search / Update results",
+    "reads": [],
+    "writes": ["searchParams"],
+    "mockSource": "Client-side mock-items.json + simple filter on city/name. No real inventory service.",
+    "proofCondition": "User can enter destination + dates + guests and trigger an action that visibly updates the Results Grid below.",
+    "seoNotes": "H1 or strong heading should contain primary search terms. Meta description would describe 'book hotels in {city}' for the live page.",
+    "schemaNotes": "Consider HotelSearch or LodgingReservation schema on real page. Search form should be crawlable."
+  },
+  {
+    "sectionId": "results-grid",
+    "title": "2. Results Grid",
+    "purpose": "Present a scannable, filterable set of hotel options with clear price, rating, and key value props. Primary surface for comparison and selection.",
+    "userDecision": "Which property best fits my needs, budget, and location preferences?",
+    "primaryAction": "Select hotel → navigate focus to Detail/Selection",
+    "reads": ["searchParams"],
+    "writes": ["selectedHotelId", "filteredHotelIds"],
+    "mockSource": "mock-items.json filtered client-side. Thumbnails are deterministic picsum seeds.",
+    "proofCondition": "Clicking 'Select & View' on a card sets selectedHotelId in Demo State, scrolls/focuses the Detail section, and the Detail surface reflects the choice.",
+    "seoNotes": "Each result card should map to a potential <a> to real /hotel/{slug} with proper heading structure.",
+    "schemaNotes": "ItemList + Hotel structured data per result on production. Review rating aggregate."
+  },
+  {
+    "sectionId": "detail-selection",
+    "title": "3. Detail / Selection",
+    "purpose": "Deep dive on the chosen hotel + rate selection. Surface room types, policies, and value comparison so the user can commit to a specific inventory item.",
+    "userDecision": "Is this room type acceptable for my party, dates, and price tolerance?",
+    "primaryAction": "Select room/rate → advance to Checkout Preview with selectedRoomId written",
+    "reads": ["selectedHotelId", "searchParams"],
+    "writes": ["selectedRoomId"],
+    "mockSource": "Rooms nested inside the selected hotel object from mock-items.json.",
+    "proofCondition": "Selecting a room card updates Demo State with selectedRoomId. The Checkout Preview section immediately reflects the chosen hotel + room + estimated total.",
+    "seoNotes": "Canonical URL would be the real hotel detail. Rich photos + description for social/SEO.",
+    "schemaNotes": "LodgingReservation + Offer + Room type schema. AggregateRating. BreadcrumbList."
+  },
+  {
+    "sectionId": "checkout-preview",
+    "title": "4. Checkout Preview / Operation-State Stub",
+    "purpose": "Summarize the committed selections before the real payment/guest details step. Also acts as a stub for operation state machine (valid, missing info, payment pending, failed, confirmed).",
+    "userDecision": "Are my selections correct? What is the current operational status of this booking intent?",
+    "primaryAction": "Simulate operation transitions (valid → payment-pending-demo → etc.). No real payment or confirmation.",
+    "reads": ["selectedHotelId", "selectedRoomId", "searchParams"],
+    "writes": ["currentOperationState"],
+    "mockSource": "Purely derived from current demo state + hard-coded operation state transitions. No backend.",
+    "proofCondition": "The summary shows live hotel + room + dates. Buttons that call setOperationState visibly change the currentOperationState badge and log the transition in the Demo State panel.",
+    "seoNotes": "On a real checkout this surface would be the review step before POST /reserve. Keep form fields crawlable if guest info were here.",
+    "schemaNotes": "ReservationPending or potential for Order + Reservation schema. Mark as demo-only."
+  }
+]

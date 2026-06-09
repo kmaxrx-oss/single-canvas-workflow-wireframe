@@ -1,0 +1,13 @@
+{
+  "searchParams": {
+    "destination": "San Francisco",
+    "checkIn": "2026-05-14",
+    "checkOut": "2026-05-17",
+    "guests": 2
+  },
+  "filteredHotelIds": [],
+  "selectedHotelId": null,
+  "selectedRoomId": null,
+  "currentOperationState": "intake",
+  "lastAction": null
+}

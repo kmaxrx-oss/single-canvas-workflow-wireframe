@@ -1,0 +1,67 @@
+[
+  {
+    "id": "h1",
+    "name": "Harborview Grand",
+    "city": "San Francisco",
+    "rating": 4.7,
+    "priceFrom": 289,
+    "imageSeed": 101,
+    "description": "Boutique hotel steps from the waterfront with panoramic bay views.",
+    "rooms": [
+      { "id": "r1", "name": "King Harbor View", "rate": 289, "features": "King bed • Floor-to-ceiling windows • Free high-speed WiFi" },
+      { "id": "r2", "name": "Deluxe Queen Cityside", "rate": 239, "features": "Queen bed • Work desk • Soundproof windows" }
+    ]
+  },
+  {
+    "id": "h2",
+    "name": "The Lantern Hotel",
+    "city": "San Francisco",
+    "rating": 4.4,
+    "priceFrom": 179,
+    "imageSeed": 102,
+    "description": "Design-forward hotel in the heart of the Mission with excellent transit access.",
+    "rooms": [
+      { "id": "r3", "name": "Standard King", "rate": 179, "features": "King bed • Rain shower • Nespresso" },
+      { "id": "r4", "name": "Loft Studio", "rate": 219, "features": "King + sofa bed • High ceilings • Kitchenette" }
+    ]
+  },
+  {
+    "id": "h3",
+    "name": "Bayline Suites",
+    "city": "Oakland",
+    "rating": 4.2,
+    "priceFrom": 155,
+    "imageSeed": 103,
+    "description": "Modern all-suites property near Jack London Square and BART.",
+    "rooms": [
+      { "id": "r5", "name": "One-Bedroom Suite", "rate": 155, "features": "Separate living area • Full kitchen • Free parking" },
+      { "id": "r6", "name": "Premium King", "rate": 175, "features": "King bed • Balcony • Work nook" }
+    ]
+  },
+  {
+    "id": "h4",
+    "name": "Crestline Inn & Spa",
+    "city": "San Francisco",
+    "rating": 4.8,
+    "priceFrom": 325,
+    "imageSeed": 104,
+    "description": "Quiet luxury with on-site spa and rooftop terrace in Pacific Heights.",
+    "rooms": [
+      { "id": "r7", "name": "Superior King", "rate": 325, "features": "King bed • Spa access • Private terrace option" },
+      { "id": "r8", "name": "Spa Suite", "rate": 425, "features": "King + sitting room • In-room soaking tub • Butler service" }
+    ]
+  },
+  {
+    "id": "h5",
+    "name": "Transit Hub Hotel",
+    "city": "Oakland",
+    "rating": 3.9,
+    "priceFrom": 129,
+    "imageSeed": 105,
+    "description": "Practical, clean rooms directly connected to the Amtrak / BART hub.",
+    "rooms": [
+      { "id": "r9", "name": "Compact Queen", "rate": 129, "features": "Queen bed • Compact workspace • 24h front desk" },
+      { "id": "r10", "name": "Family Room", "rate": 169, "features": "Two queens • Micro-kitchen • Crib available" }
+    ]
+  }
+]

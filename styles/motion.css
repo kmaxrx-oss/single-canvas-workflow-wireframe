@@ -1,0 +1,41 @@
+/* motion.css — only purposeful, clarifying motion (Tranche 0 strict) */
+
+button,
+.hotel-card,
+.room-card,
+.op-pill {
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+/* Focus overlay */
+#focus-overlay .overlay-content {
+  transition: transform var(--dur-normal) var(--ease), opacity var(--dur-normal) var(--ease);
+  transform: scale(0.985);
+  opacity: 0;
+}
+
+#focus-overlay.visible .overlay-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .focus-highlight {
+    animation: none !important;
+  }
+}
+
+/* Scroll behavior is set via JS scrollIntoView({ behavior: 'smooth' }) — suppressed by reduce-motion */

@@ -1,0 +1,29 @@
+{
+  "description": "Maps visual primitives / components used in the specimen to the surfaces they appear on. Used by future handoff and by any side-by-side or mindmap renderers.",
+  "mappings": [
+    {
+      "component": "hotel-card",
+      "appearsOn": ["results-grid"],
+      "productionSurface": "web:search-results | web:hotel-listing",
+      "notes": "Will become a reusable <HotelCard> or equivalent. Must accept hotel + onSelect handler."
+    },
+    {
+      "component": "room-rate-card",
+      "appearsOn": ["detail-selection"],
+      "productionSurface": "web:hotel-detail | modal:rate-picker",
+      "notes": "Selectable rate row. Writes selectedRoomId on click."
+    },
+    {
+      "component": "search-form",
+      "appearsOn": ["intake-search"],
+      "productionSurface": "web:home | web:search-landing",
+      "notes": "Progressive enhancement target. In real app may submit or update client state."
+    },
+    {
+      "component": "operation-state-stub",
+      "appearsOn": ["checkout-preview"],
+      "productionSurface": "web:checkout-review | operator:booking-detail",
+      "notes": "This surface demonstrates the operation state machine that the mindmap view will later visualize."
+    }
+  ]
+}

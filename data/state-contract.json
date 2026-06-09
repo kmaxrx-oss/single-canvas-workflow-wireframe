@@ -1,0 +1,39 @@
+{
+  "searchParams": {
+    "type": "object",
+    "shape": "{ destination: string, checkIn: string, checkOut: string, guests: number }",
+    "writers": ["performSearch"],
+    "readers": ["results-grid", "detail-selection", "checkout-preview"],
+    "description": "User's current search criteria. Drives result filtering and is echoed in later sections for context."
+  },
+  "filteredHotelIds": {
+    "type": "string[]",
+    "writers": ["performSearch"],
+    "readers": ["results-grid"],
+    "description": "Ids of hotels currently visible in the results grid after the last search action."
+  },
+  "selectedHotelId": {
+    "type": "string | null",
+    "writers": ["selectHotel"],
+    "readers": ["detail-selection", "checkout-preview", "results-grid (highlight)"],
+    "description": "The hotel the user has focused for detail and potential booking. Cleared only on full reset."
+  },
+  "selectedRoomId": {
+    "type": "string | null",
+    "writers": ["selectRoom"],
+    "readers": ["checkout-preview", "detail-selection (highlight)"],
+    "description": "Specific room/rate id chosen inside the selected hotel. Required to enable checkout preview progression."
+  },
+  "currentOperationState": {
+    "type": "string",
+    "writers": ["setOperationState", "selectRoom (auto-advance)"],
+    "readers": ["checkout-preview"],
+    "description": "Coarse operation lifecycle for the booking intent. Values: intake, results, detail, checkout-preview, checkout-valid, payment-pending-demo, payment-failed-demo. Used by future Operation Map views."
+  },
+  "lastAction": {
+    "type": "object | null",
+    "writers": ["all actions via logAction"],
+    "readers": ["state-panel"],
+    "description": "Most recent action name + summary for debugging and for the sticky panel log."
+  }
+}

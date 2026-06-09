@@ -1,0 +1,8 @@
+/* Thin aggregator so Vite HMR still works if someone imports it.
+   The actual specimen uses direct <link> tags to the five split stylesheets
+   for maximum transparency of the design system. */
+@import '../styles/tokens.css';
+@import '../styles/base.css';
+@import '../styles/layout.css';
+@import '../styles/components.css';
+@import '../styles/motion.css';
